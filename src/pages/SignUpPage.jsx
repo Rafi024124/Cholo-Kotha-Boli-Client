@@ -3,20 +3,41 @@ import { useAuthStore } from "../store/useAuthStore";
 import { MessageSquare, User, Mail, Eye, EyeOff, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import AuthImagePattern from "../components/AuthImagePattern";
-
+import toast from "react-hot-toast"
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [fromData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
   });
 
   const { signup, isSigningUp } = useAuthStore();
-  const validateForm = () => {};
+
+
+  const validateForm = () => {
+    if(!formData.fullName.trim()) return toast.error("Full name is required");
+    if(!formData.email.trim()) return toast.error("email is required");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailRegex.test(formData.email)) {
+  return toast.error("Please enter a valid email address");
+}
+    if(!formData.password.trim()) return toast.error("password is required");
+    if(formData.password.length < 6) return toast.error("password must be at least 6 characters")
+     return true;
+    };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+   
+    const success = validateForm();
+    
+    if(success === true) 
+        {
+             
+            signup(formData)
+        }
   };
 
   return (
@@ -46,9 +67,9 @@ const SignUpPage = () => {
                 name="fullName"
                 placeholder="Full Name"
                 className="peer w-full h-10 px-10 text-sm placeholder-transparent border-b border-slate-300 text-slate-700 transition-all outline-none focus:border-emerald-500"
-                value={fromData.fullName}
+                value={formData.fullName}
                 onChange={(e) =>
-                  setFormData({ ...fromData, fullName: e.target.value })
+                  setFormData({ ...formData, fullName: e.target.value })
                 }
               />
               <label
@@ -68,9 +89,9 @@ const SignUpPage = () => {
                 name="email"
                 placeholder="Email"
                 className="peer w-full h-10 px-10 text-sm placeholder-transparent border-b border-slate-300 text-slate-700 transition-all outline-none focus:border-emerald-500"
-                value={fromData.email}
+                value={formData.email}
                 onChange={(e) =>
-                  setFormData({ ...fromData, email: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
               />
               <label
@@ -90,9 +111,9 @@ const SignUpPage = () => {
                 name="password"
                 placeholder="Password"
                 className="peer w-full h-10 px-10 text-sm placeholder-transparent border-b border-slate-300 text-slate-700 transition-all outline-none focus:border-emerald-500"
-                value={fromData.password}
+                value={formData.password}
                 onChange={(e) =>
-                  setFormData({ ...fromData, password: e.target.value })
+                  setFormData({ ...formData, password: e.target.value })
                 }
               />
               <label
