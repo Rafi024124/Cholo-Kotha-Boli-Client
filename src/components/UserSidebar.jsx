@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { useChatStore } from '../store/useChatStore';
+
 import { UserRound } from 'lucide-react';
 import SidebarSkeleton from '../pages/skeletons/SidebarSkeleton';
+import { useAuthStore } from '../store/useAuthStore';
+import { useChatStore } from '../store/useChatStore.js';
 
 
 const UserSidebar = () => {
@@ -14,7 +16,7 @@ const UserSidebar = () => {
     
   } = useChatStore();
 
-  const onlineUsers = [];
+  const { onlineUsers } = useAuthStore()
 
   useEffect(() => {
     getUsers();

@@ -1,8 +1,10 @@
 import React from 'react';
-import { useChatStore } from '../store/useChatStore';
+
 import NoChatSelected from '../components/NoChatSelected';
 import ChatContainer from '../components/ChatContainer';
 import UserSidebar from '../components/UserSidebar'; // We'll create this next
+import { useChatStore } from '../store/useChatStore.js';
+
 
 
 
