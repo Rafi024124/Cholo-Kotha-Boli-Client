@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { UserRound } from 'lucide-react';
 import SidebarSkeleton from '../pages/skeletons/SidebarSkeleton';
@@ -17,12 +17,13 @@ const UserSidebar = () => {
   } = useChatStore();
 
   const { onlineUsers } = useAuthStore()
+  const [showOnlineOnly, setShowOnlineOnly] = useState(false)
 
   useEffect(() => {
     getUsers();
   }, [getUsers]);
 
-  console.log(users);
+  const filteredUsers = showOnlineOnly ? users.filter(user=> onlineUsers.includes(user._id)) : users;
   
 
   if (isUserLoading) return <SidebarSkeleton></SidebarSkeleton>
@@ -32,8 +33,19 @@ const UserSidebar = () => {
       <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-[var(--primary-color)]">
         <UserRound className="w-6 h-6" /> Contacts
       </h2>
+      <div className='mt-3 hidden lg:flex items-center gap-2'>
+        <label className='cursor-pointer flex items-center gap-2'>
+          <input type="checkbox"
+          checked={showOnlineOnly}
+          onChange={(e)=> setShowOnlineOnly(e.target.checked)}
+          className='checkbox checkbox-sm' />
+          <span className='text-sm'>Show online only</span>
+        </label>
+        <span className='text-xs text-zinc-500'>({onlineUsers.length - 1} online)</span>
+       
+      </div>
       <ul className="space-y-3 overflow-y-auto max-h-[calc(100vh-6rem)] pr-1">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <li
             key={user._id}
             onClick={() => setSelectedUser(user)}
@@ -59,7 +71,14 @@ const UserSidebar = () => {
               </span>
             </div>
           </li>
+
+
+        
+
         ))}
+        {filteredUsers.length === 0 && (
+          <div className='text-center text-zinc-500 py-4'>No online users</div>
+        )}
       </ul>
     </div>
   );
