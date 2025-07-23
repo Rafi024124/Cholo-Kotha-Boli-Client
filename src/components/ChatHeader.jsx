@@ -12,16 +12,16 @@ const ChatHeader = () => {
   const isOnline = onlineUsers.includes(selectedUser._id);
 
   return (
-    <div className="flex items-center justify-between bg-gray-800 text-white px-4 py-2 shadow-md rounded-t-lg">
+    <div className="flex items-center justify-between bg-[#d1fae5] text-[#065f46] px-4 py-2 shadow-sm border-b border-emerald-200 rounded-t-lg">
       <div className="flex items-center gap-3">
         <img
           src={selectedUser.profilePic || "/avatar.jpg"}
           alt={selectedUser.fullName}
-          className="w-10 h-10 rounded-full object-cover"
+          className="w-10 h-10 rounded-full object-cover border border-emerald-300"
         />
         <div>
           <h2 className="font-semibold">{selectedUser.fullName}</h2>
-          <p className={`text-sm ${isOnline ? 'text-green-400' : 'text-gray-400'}`}>
+          <p className={`text-sm ${isOnline ? 'text-emerald-600' : 'text-gray-500'}`}>
             {isOnline ? 'Online' : 'Offline'}
           </p>
         </div>
